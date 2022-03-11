@@ -12,14 +12,14 @@ RUN dpkgArch="$(dpkg --print-architecture)"; \
     esac
 
 # certificate
-RUN mkdir -p /opt/rdpgw && cd /opt/rdpgw && \
-    random=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1) && \
-    openssl genrsa -des3 -passout pass:$random -out server.pass.key 2048 && \
-    openssl rsa -passin pass:$random -in server.pass.key -out key.pem && \
-    rm server.pass.key && \
-    openssl req -new -sha256 -key key.pem -out server.csr \
-    -subj "/C=US/ST=VA/L=SomeCity/O=MyCompany/OU=MyDivision/CN=localhost" && \
-    openssl x509 -req -days 365 -in server.csr -signkey key.pem -out server.pem
+RUN mkdir -p /opt/rdpgw && cd /opt/rdpgw
+    #random=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1) && \
+    #openssl genrsa -des3 -passout pass:$random -out server.pass.key 2048 && \
+    #openssl rsa -passin pass:$random -in server.pass.key -out key.pem && \
+    #rm server.pass.key && \
+    #openssl req -new -sha256 -key key.pem -out server.csr \
+    #-subj "/C=US/ST=VA/L=SomeCity/O=MyCompany/OU=MyDivision/CN=localhost" && \
+    #openssl x509 -req -days 365 -in server.csr -signkey key.pem -out server.pem
 
 # add user
 RUN adduser --disabled-password --gecos "" --home /opt/rdpgw --uid 1001 rdpgw
@@ -42,7 +42,7 @@ COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/ssl/certs /etc/ssl/certs
 # COPY --from=builder /bin/sh /bin/sh
 # COPY rdpgw.yaml
-COPY rdpgw.yaml /opt/rdpgw/rdpgw.yaml
+#COPY rdpgw.yaml /opt/rdpgw/rdpgw.yaml
 
 USER 1001
 WORKDIR /opt/rdpgw
