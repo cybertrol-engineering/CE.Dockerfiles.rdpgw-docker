@@ -12,7 +12,7 @@ RUN dpkgArch="$(dpkg --print-architecture)"; \
 RUN mkdir -p /opt/rdpgw && cd /opt/rdpgw
 RUN adduser --disabled-password --gecos "" --home /opt/rdpgw --uid 1001 rdpgw
 
-RUN git clone https://github.com/alphabet5/rdpgw.git /app && \
+RUN git clone https://github.com/cybertrol-engineering/rdpgw.git /app && \
     cd /app && \
     go mod tidy && \
     CGO_ENABLED=0 GOOS=linux go build -trimpath -tags '' -ldflags '' -o '/opt/rdpgw/rdpgw' ./cmd/rdpgw && \
